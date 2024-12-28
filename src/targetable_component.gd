@@ -21,6 +21,8 @@ func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void
 	if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
 		GlobalSignals.target_selected.emit()
 		currently_targetted = true
+		var material: ShaderMaterial = target_sprite.get_material()
+		material.set_shader_parameter("width", 1)
 
 
 func _ready() -> void:
@@ -55,24 +57,20 @@ func generate_polygon_from_sprite() -> void:
 			collision_polygon.position -= Vector2(bitmap.get_size() / 2)
 			collision_polygon.position += target_sprite.offset
 		collision_polygon.position += target_sprite.get_transform().get_origin()
-	# Only for debug purposes?
-	# Need to queue_redraw() instead of calling _draw() directly (drawing limited to once per frame)
-	# TODO i think it would be more sane to handle the non-debug display in shader script
-	if OS.is_debug_build():
-		queue_redraw()
 
 
 func _draw() -> void:
-	if target_sprite == null and OS.is_debug_build():
-		return
-	for i in range(1, len(collision_polygon.polygon)):
-		draw_line(
-			collision_polygon.polygon[i] + collision_polygon.position,
-			collision_polygon.polygon[i-1] + collision_polygon.position,
-			Color.RED,
-			0.5,
-			true,
-		)
+	pass
+	#if target_sprite == null and OS.is_debug_build():
+	#	return
+	#for i in range(1, len(collision_polygon.polygon)):
+	#	draw_line(
+	#		collision_polygon.polygon[i] + collision_polygon.position,
+	#		collision_polygon.polygon[i-1] + collision_polygon.position,
+	#		Color.RED,
+	#		0.5,
+	#		true,
+	#	)
 
 
 func _on_animated_sprite_2d_animation_changed() -> void:
@@ -81,3 +79,5 @@ func _on_animated_sprite_2d_animation_changed() -> void:
 
 func _on_global_signals_target_selected() -> void:
 	currently_targetted = false
+	var material: ShaderMaterial = target_sprite.get_material()
+	material.set_shader_parameter("width", 0)

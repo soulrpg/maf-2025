@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://dsi4kq3bqrusv"]
+[gd_scene load_steps=49 format=4 uid="uid://dsi4kq3bqrusv"]
 
 [ext_resource type="Texture2D" uid="uid://b6jww2pyl1nvs" path="res://resources/graphics/autotile-test_Godot.png" id="1_xsoon"]
 [ext_resource type="Texture2D" uid="uid://chj00b4mw1i5k" path="res://resources/graphics/tile-test.png" id="2_ae8fd"]
@@ -2154,6 +2154,45 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sykfa"]
 size = Vector2(20, 28)
 
+[sub_resource type="Shader" id="Shader_iacd8"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform int width:hint_range(0, 5, 1);
+uniform vec4 outline_color:source_color;
+uniform float flickering_speed:hint_range(0.0, 50.0, 1.);
+uniform float minimal_flickering_alpha:hint_range(0.0, 0.9, 0.1);
+
+void fragment() {
+	float pixel_size_x = 1.0/float(textureSize(TEXTURE,0).x);
+	float pixel_size_y = 1.0/float(textureSize(TEXTURE,0).y);
+	vec2 pixel_size = vec2(pixel_size_x, pixel_size_y);
+	if (texture(TEXTURE, UV).a == 0.) { 
+		for (int x = -width; x <= width; x++) {
+			for(int y = -width; y <= width; y++) {
+				vec2 pixel_offset = vec2(float(x),float(y));
+				if (texture(TEXTURE, UV+(pixel_offset*pixel_size)).a > 0.) {
+					vec4 resulting_color = outline_color;
+					float alpha_norm = (sin(TIME*flickering_speed) +1.2) *0.5;
+					alpha_norm = (1.- minimal_flickering_alpha) * alpha_norm + minimal_flickering_alpha;
+					resulting_color.a = alpha_norm;
+					COLOR = resulting_color;
+				}
+			}
+		}
+	} else {
+		COLOR = texture(TEXTURE, UV);
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_crge2"]
+resource_local_to_scene = true
+shader = SubResource("Shader_iacd8")
+shader_parameter/width = 0
+shader_parameter/outline_color = Color(1, 0, 0, 1)
+shader_parameter/flickering_speed = null
+shader_parameter/minimal_flickering_alpha = null
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_y2gcd"]
 atlas = ExtResource("5_xu88w")
 region = Rect2(0, 0, 96, 96)
@@ -2225,6 +2264,45 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3nxah"]
 size = Vector2(44, 24)
+
+[sub_resource type="Shader" id="Shader_3mil5"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform int width:hint_range(0, 5, 1);
+uniform vec4 outline_color:source_color;
+uniform float flickering_speed:hint_range(0.0, 50.0, 1.);
+uniform float minimal_flickering_alpha:hint_range(0.0, 0.9, 0.1);
+
+void fragment() {
+	float pixel_size_x = 1.0/float(textureSize(TEXTURE,0).x);
+	float pixel_size_y = 1.0/float(textureSize(TEXTURE,0).y);
+	vec2 pixel_size = vec2(pixel_size_x, pixel_size_y);
+	if (texture(TEXTURE, UV).a == 0.) { 
+		for (int x = -width; x <= width; x++) {
+			for(int y = -width; y <= width; y++) {
+				vec2 pixel_offset = vec2(float(x),float(y));
+				if (texture(TEXTURE, UV+(pixel_offset*pixel_size)).a > 0.) {
+					vec4 resulting_color = outline_color;
+					float alpha_norm = (sin(TIME*flickering_speed) +1.2) *0.5;
+					alpha_norm = (1.- minimal_flickering_alpha) * alpha_norm + minimal_flickering_alpha;
+					resulting_color.a = alpha_norm;
+					COLOR = resulting_color;
+				}
+			}
+		}
+	} else {
+		COLOR = texture(TEXTURE, UV);
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fciqa"]
+resource_local_to_scene = true
+shader = SubResource("Shader_3mil5")
+shader_parameter/width = 0
+shader_parameter/outline_color = Color(1, 0, 0, 1)
+shader_parameter/flickering_speed = null
+shader_parameter/minimal_flickering_alpha = null
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t3hbb"]
 radius = 14.1421
@@ -2328,6 +2406,7 @@ script = ExtResource("8_asdhx")
 target_sprite = NodePath("../AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Enemy"]
+material = SubResource("ShaderMaterial_crge2")
 position = Vector2(0, -35)
 sprite_frames = SubResource("SpriteFrames_b2wyo")
 animation = &"idle"
@@ -2346,10 +2425,47 @@ debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
+[node name="Enemy2" type="CharacterBody2D" parent="." node_paths=PackedStringArray("target")]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(278, 276)
+collision_layer = 4
+collision_mask = 5
+wall_min_slide_angle = 0.0
+script = ExtResource("5_f3dvc")
+target = NodePath("../Player")
+
+[node name="TargetableComponent" type="Area2D" parent="Enemy2" node_paths=PackedStringArray("target_sprite")]
+rotation = 3.14159
+scale = Vector2(1, -1)
+script = ExtResource("8_asdhx")
+target_sprite = NodePath("../AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Enemy2"]
+material = SubResource("ShaderMaterial_fciqa")
+position = Vector2(0, -35)
+sprite_frames = SubResource("SpriteFrames_b2wyo")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2"]
+shape = SubResource("RectangleShape2D_3nxah")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Enemy2"]
+path_desired_distance = 5.0
+target_desired_distance = 45.0
+path_max_distance = 1000.0
+path_postprocessing = 1
+avoidance_enabled = true
+max_speed = 200.0
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(1, 0, 0, 1)
+
 [node name="Fire" type="StaticBody2D" parent="."]
 position = Vector2(272.649, 365.676)
 script = ExtResource("9_7onmf")
 metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fire"]
 shape = SubResource("CircleShape2D_t3hbb")
