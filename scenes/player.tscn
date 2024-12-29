@@ -1,0 +1,96 @@
+[gd_scene load_steps=13 format=3 uid="uid://d3wness4jy07e"]
+
+[ext_resource type="Script" path="res://src/player.gd" id="1_kau7m"]
+[ext_resource type="Texture2D" uid="uid://soiltvbdtfyr" path="res://resources/graphics/aluxes1_ironsword_bronzeshield_by_dark_holder_d7aq9v2.png" id="2_a1261"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vwyx"]
+atlas = ExtResource("2_a1261")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_klmlx"]
+atlas = ExtResource("2_a1261")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sweq4"]
+atlas = ExtResource("2_a1261")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w8g6n"]
+atlas = ExtResource("2_a1261")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpk4s"]
+atlas = ExtResource("2_a1261")
+region = Rect2(0, 768, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7n8p"]
+atlas = ExtResource("2_a1261")
+region = Rect2(96, 768, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8j4hr"]
+atlas = ExtResource("2_a1261")
+region = Rect2(192, 768, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ius2"]
+atlas = ExtResource("2_a1261")
+region = Rect2(288, 768, 96, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uu4bp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vwyx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_klmlx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sweq4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w8g6n")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpk4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g7n8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8j4hr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ius2")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sykfa"]
+size = Vector2(20, 28)
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 1
+y_sort_enabled = true
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_kau7m")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -21)
+sprite_frames = SubResource("SpriteFrames_uu4bp")
+animation = &"move"
+frame_progress = 0.32219
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 9)
+shape = SubResource("RectangleShape2D_sykfa")
+
+[node name="Camera2D" type="Camera2D" parent="."]

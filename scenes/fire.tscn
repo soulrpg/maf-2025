@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=3 uid="uid://bewhn7pskpqdb"]
+
+[ext_resource type="Script" path="res://src/fire.gd" id="1_wwxvb"]
+[ext_resource type="Texture2D" uid="uid://dxn5mppmxb75x" path="res://resources/graphics/fire.png" id="2_exvn1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t3hbb"]
+radius = 14.1421
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2ov3"]
+atlas = ExtResource("2_exvn1")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rawbr"]
+atlas = ExtResource("2_exvn1")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wgj8"]
+atlas = ExtResource("2_exvn1")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l0ykc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2ov3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rawbr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6wgj8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_h68ux"]
+offsets = PackedFloat32Array(0.230769, 0.511538, 0.765385, 1)
+colors = PackedColorArray(1, 0.792157, 0.447059, 1, 0.52549, 0.470588, 0.419608, 1, 0.165414, 0.165414, 0.165414, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ifamf"]
+gradient = SubResource("Gradient_h68ux")
+width = 200
+height = 200
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8, 0.8)
+
+[node name="Fire" type="StaticBody2D"]
+script = ExtResource("1_wwxvb")
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_t3hbb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_l0ykc")
+autoplay = "default"
+frame_progress = 0.839904
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+texture = SubResource("GradientTexture2D_ifamf")
