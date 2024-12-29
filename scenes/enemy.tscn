@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://de60tw0r521u8"]
+[gd_scene load_steps=17 format=3 uid="uid://de60tw0r521u8"]
 
 [ext_resource type="Script" path="res://src/enemy.gd" id="1_kdafr"]
 [ext_resource type="Script" path="res://src/component/targetable_component.gd" id="2_qk8p1"]
 [ext_resource type="Texture2D" uid="uid://dfhydy833qy4j" path="res://resources/graphics/gallery_569_3_1934.png" id="3_t0iq0"]
+[ext_resource type="PackedScene" uid="uid://dh2vlglhrwrop" path="res://scenes/component/target_follower_component.tscn" id="4_kch8f"]
 
 [sub_resource type="Shader" id="Shader_iacd8"]
 resource_local_to_scene = true
@@ -148,3 +149,5 @@ max_speed = 200.0
 debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 0, 1)
+
+[node name="TargetFollowerComponent" parent="." instance=ExtResource("4_kch8f")]
