@@ -1,5 +1,6 @@
 class_name DynamicNavigableTileMapLayer extends TileMapLayer
 
+@export var world: Node2D = null
 # TODO it should dynamically search for all other layers placed within <Map>
 # and only remove polygons where the collision is added on the upper layers
 # (right now handles one hardcoded layer)

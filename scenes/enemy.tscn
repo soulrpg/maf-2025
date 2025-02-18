@@ -140,14 +140,17 @@ animation = &"idle"
 shape = SubResource("RectangleShape2D_3nxah")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_desired_distance = 5.0
+path_desired_distance = 15.0
 target_desired_distance = 45.0
 path_max_distance = 1000.0
 path_postprocessing = 1
 avoidance_enabled = true
+radius = 44.0
 max_speed = 200.0
 debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
-[node name="TargetFollowerComponent" parent="." instance=ExtResource("4_kch8f")]
+[node name="TargetFollowerComponent" parent="." node_paths=PackedStringArray("navigation_agent_2d", "character") instance=ExtResource("4_kch8f")]
+navigation_agent_2d = NodePath("../NavigationAgent2D")
+character = NodePath("..")

@@ -13,7 +13,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta):
-	move_and_slide()
+	move_and_collide(velocity * delta)
 	# If sprite was flipped vertically we need to emit animation_changed signal
 	# to update the TargetableComponent's collision polygon
 	var old_flip_h: bool = animated_sprite_2d.flip_h

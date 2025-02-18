@@ -1,29 +1,39 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsi4kq3bqrusv"]
+[gd_scene load_steps=6 format=3 uid="uid://dsi4kq3bqrusv"]
 
 [ext_resource type="PackedScene" uid="uid://co68608bp3hpg" path="res://scenes/map.tscn" id="1_2q76f"]
 [ext_resource type="PackedScene" uid="uid://de60tw0r521u8" path="res://scenes/enemy.tscn" id="3_vg4ld"]
 [ext_resource type="PackedScene" uid="uid://d3wness4jy07e" path="res://scenes/player.tscn" id="4_eqe70"]
 [ext_resource type="PackedScene" uid="uid://bewhn7pskpqdb" path="res://scenes/fire.tscn" id="9_vdcqs"]
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_qfe2q"]
+vertices = PackedVector2Array(1974, 566, 341.219, 460.242, 344.492, 448, 426, 330, 554, 234, 1974, 10, 202, 202, 202, 150, 214, 182, 214, 234, 341.219, 435.758, 342, 330, 332.242, 426.781, 202, 458, 295.508, 448, 298.781, 460.242, 10, 566, 320, 423.508, 554, 182, 426, 138, 426, 86, 470, 182, 470, 234, 426, 278, 342, 138, 342, 278, 298, 234, 298, 182, 202, 406, 298.781, 435.758, 10, 10, 342, 86, 138, 406, 138, 374, 54, 426, 118, 426, 118, 458, 118, 150, 118, 202, 54, 374, 307.758, 426.781, 332.242, 469.219, 320, 472.492, 307.758, 469.219)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(6, 7, 8, 9), PackedInt32Array(3, 2, 10, 11), PackedInt32Array(11, 10, 12), PackedInt32Array(13, 14, 15, 16), PackedInt32Array(11, 12, 17), PackedInt32Array(5, 4, 18), PackedInt32Array(19, 20, 5, 18, 21), PackedInt32Array(22, 4, 3, 23), PackedInt32Array(24, 19, 21, 22, 23, 25, 26, 27), PackedInt32Array(14, 13, 28, 29), PackedInt32Array(30, 5, 20, 31), PackedInt32Array(28, 32, 33, 9, 26, 25, 11), PackedInt32Array(34, 35, 36, 16), PackedInt32Array(30, 31, 24, 27, 7), PackedInt32Array(27, 8, 7), PackedInt32Array(30, 7, 37), PackedInt32Array(38, 6, 9, 33, 39), PackedInt32Array(40, 29, 28, 11), PackedInt32Array(11, 17, 40), PackedInt32Array(41, 1, 0), PackedInt32Array(41, 0, 16, 42), PackedInt32Array(43, 42, 16), PackedInt32Array(15, 43, 16), PackedInt32Array(36, 13, 16), PackedInt32Array(34, 16, 30, 39), PackedInt32Array(38, 39, 30, 37)])
+cell_size = 32.0
+
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 
-[node name="Map" parent="." instance=ExtResource("1_2q76f")]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_qfe2q")
+use_edge_connections = false
+travel_cost = 0.0
+
+[node name="Map" parent="NavigationRegion2D" instance=ExtResource("1_2q76f")]
+
+[node name="Fire" parent="NavigationRegion2D" instance=ExtResource("9_vdcqs")]
+position = Vector2(320, 448)
+
+[node name="Enemy" parent="NavigationRegion2D" node_paths=PackedStringArray("target") instance=ExtResource("3_vg4ld")]
+position = Vector2(424.363, 398.638)
+target = NodePath("../../Player")
+
+[node name="Enemy2" parent="NavigationRegion2D" node_paths=PackedStringArray("target") instance=ExtResource("3_vg4ld")]
+position = Vector2(979.328, 279.764)
+target = NodePath("../../Player")
 
 [node name="Player" parent="." instance=ExtResource("4_eqe70")]
-position = Vector2(81.567, 84.9305)
-
-[node name="Fire" parent="." instance=ExtResource("9_vdcqs")]
-position = Vector2(309.361, 441.912)
+position = Vector2(226.713, 445.148)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0.243137, 0.317647, 0.376471, 0.823529)
 metadata/_edit_lock_ = true
-
-[node name="Enemy" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_vg4ld")]
-position = Vector2(215, 94)
-target = NodePath("../Player")
-
-[node name="Enemy2" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_vg4ld")]
-position = Vector2(306.569, 140.974)
-target = NodePath("../Player")

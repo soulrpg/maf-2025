@@ -18,7 +18,7 @@ func physics_process(delta: float) -> AbstractPlayerState:
 	else:
 		player.velocity = Vector2.ZERO
 		return IdlePlayerState.new(player)
-	player.move_and_slide()
+	player.move_and_collide(player.velocity * delta)
 	return null
 
 

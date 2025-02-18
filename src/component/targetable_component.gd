@@ -19,7 +19,7 @@ func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void
 	if event is not InputEventMouseButton:
 		return
 	if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
-		GlobalSignals.target_selected.emit()
+		GlobalSignals.target_selected.emit(self)
 		currently_targetted = true
 		var material: ShaderMaterial = target_sprite.get_material()
 		material.set_shader_parameter("width", 1)
