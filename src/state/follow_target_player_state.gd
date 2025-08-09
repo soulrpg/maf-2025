@@ -8,15 +8,14 @@ func _init(player: Player) -> void:
 	self.target_follower_component = player.get_node("TargetFollowerComponent")
 
 
-func physics_process(delta: float) -> AbstractPlayerState:
+func physics_process(delta: float) -> void:
 	var direction: Vector2
 	direction.x = Input.get_axis("ui_left", "ui_right")
 	direction.y = Input.get_axis("ui_up", "ui_down")
 	
 	if direction:
-		return MovePlayerState.new(player)
+		GlobalSignals.player_moving.emit()
 	player.move_and_collide(player.velocity * delta)
-	return null
 
 
 func on_enter() -> void:

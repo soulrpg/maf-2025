@@ -1,7 +1,7 @@
 class_name MovePlayerState extends AbstractPlayerState
 
 
-func physics_process(delta: float) -> AbstractPlayerState:
+func physics_process(delta: float) -> void:
 	var direction: Vector2
 	direction.x = Input.get_axis("ui_left", "ui_right")
 	direction.y = Input.get_axis("ui_up", "ui_down")
@@ -17,9 +17,8 @@ func physics_process(delta: float) -> AbstractPlayerState:
 		player.velocity = direction * player.speed
 	else:
 		player.velocity = Vector2.ZERO
-		return IdlePlayerState.new(player)
+		GlobalSignals.player_idle.emit()
 	player.move_and_collide(player.velocity * delta)
-	return null
 
 
 func on_enter() -> void:

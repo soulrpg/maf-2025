@@ -1,14 +1,13 @@
 class_name IdlePlayerState extends AbstractPlayerState
 
 
-func physics_process(delta: float) -> AbstractPlayerState:
+func physics_process(delta: float) -> void:
 	var direction: Vector2
 	direction.x = Input.get_axis("ui_left", "ui_right")
 	direction.y = Input.get_axis("ui_up", "ui_down")
 	
 	if direction:
-		return MovePlayerState.new(player)
-	return null
+		GlobalSignals.player_moving.emit()
 
 
 func on_enter() -> void:

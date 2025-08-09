@@ -7,9 +7,8 @@ func _init(player: Player) -> void:
 	self.player = player
 
 
-func physics_process(delta: float) -> AbstractPlayerState:
-	return null
-
+func physics_process(delta: float) -> void:
+	pass
 
 func on_enter() -> void:
 	pass

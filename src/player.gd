@@ -11,12 +11,12 @@ var state: AbstractPlayerState = null
 func _ready() -> void:
 	change_state(IdlePlayerState.new(self))
 	GlobalSignals.target_selected.connect(_on_global_signals_target_selected)
+	GlobalSignals.player_moving.connect(_on_global_signals_player_moving)
+	GlobalSignals.player_idle.connect(_on_global_signals_player_idle)
 
 
 func _physics_process(delta: float) -> void:
-	var new_state: AbstractPlayerState = state.physics_process(delta)
-	if new_state != null:
-		change_state(new_state)
+	state.physics_process(delta)
 
 
 func change_state(new_state: AbstractPlayerState) -> void:
@@ -32,3 +32,9 @@ func _on_global_signals_target_selected(target: Node2D) -> void:
 	target_follower_component.target = target.get_parent()
 	target_follower_component.navigation_target_setup()
 	change_state(FollowTargetPlayerState.new(self))
+	
+func _on_global_signals_player_moving() -> void:
+	change_state(MovePlayerState.new(self))
+	
+func _on_global_signals_player_idle() -> void:
+	change_state(IdlePlayerState.new(self))
