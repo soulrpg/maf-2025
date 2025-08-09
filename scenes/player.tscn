@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://d3wness4jy07e"]
 
-[ext_resource type="Script" path="res://src/player.gd" id="1_kau7m"]
+[ext_resource type="Script" uid="uid://do8i8es8q8ox2" path="res://src/player.gd" id="1_kau7m"]
 [ext_resource type="Texture2D" uid="uid://soiltvbdtfyr" path="res://resources/graphics/aluxes1_ironsword_bronzeshield_by_dark_holder_d7aq9v2.png" id="2_a1261"]
 [ext_resource type="PackedScene" uid="uid://dh2vlglhrwrop" path="res://scenes/component/target_follower_component.tscn" id="3_jn0vo"]
 
