@@ -108,7 +108,6 @@ debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
-[node name="TargetFollowerComponent" parent="." node_paths=PackedStringArray("navigation_agent_2d", "character") instance=ExtResource("3_jn0vo")]
+[node name="TargetFollowerComponent" parent="." node_paths=PackedStringArray("navigation_agent_2d") instance=ExtResource("3_jn0vo")]
 navigation_agent_2d = NodePath("../NavigationAgent2D")
-character = NodePath("..")
 enabled = false

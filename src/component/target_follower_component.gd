@@ -2,9 +2,12 @@ class_name TargetFollowerComponent extends Node2D
 
 @export var navigation_agent_2d: NavigationAgent2D
 @export var target: Node2D 
-@export var character: CharacterBody2D
 @export var speed: float = 300.0
 @export var enabled: bool = true
+
+# velocity that is returned after calculate_agent_velocity is called
+var computed_velocity: Vector2
+
 
 signal target_reached
 
@@ -43,4 +46,4 @@ func _physics_process(delta: float) -> void:
 func _on_navigation_agent_2d_velocity_computed(safe_velocity):
 	if not enabled:
 		return
-	character.velocity = safe_velocity
+	computed_velocity = safe_velocity
